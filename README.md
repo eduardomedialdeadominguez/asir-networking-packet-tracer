@@ -1,57 +1,76 @@
-# Diseño de red de un centro educativo | Cisco Packet Tracer
+# Diseño y configuración de una red LAN con VLAN | Cisco Packet Tracer
 
-**Proyecto académico de ASIR · Planificación y Administración de Redes**
+**Proyecto académico de ASIR · Planificación y Administración de Redes · ILERNA**
 
-## Resumen
+## Sobre el proyecto
 
-Diseño de una topología de red simulada para un centro educativo compuesto por tres salas: dos aulas de alumnos y una sala de profesorado. El escenario incluye **3 switches**, **6 equipos de escritorio** y **4 portátiles**, con interconexiones GigabitEthernet entre switches. El proyecto original se conserva en formato `.pkt` para poder abrirlo en Cisco Packet Tracer.
+En esta práctica diseñé y configuré en **Cisco Packet Tracer** la red local de un centro educativo ficticio formado por dos aulas de alumnos y una sala de profesorado.
 
-> **Verificación del laboratorio:** antes de entregar la PAC, comprobé personalmente las configuraciones realizadas en Packet Tracer, incluidas las VLAN y los enlaces troncales. Las capturas seleccionadas ilustran parte del proceso, pero no contienen la salida de todos los comandos de verificación. El fichero `.pkt` permite revisar el diseño y sus configuraciones.
+Mi objetivo fue conectar los dispositivos de las tres salas, asignarles direcciones IPv4, configurar los switches y separar lógicamente los equipos mediante **VLAN 10** y **VLAN 20**. Antes de entregar la actividad comprobé personalmente la configuración y el funcionamiento del laboratorio.
 
-## Tecnologías y conceptos
+## Tecnologías y conocimientos aplicados
 
-- Cisco Packet Tracer y configuración mediante CLI Cisco IOS.
-- Diseño de topologías LAN y conexiones Ethernet/GigabitEthernet.
-- Direccionamiento IPv4 estático y máscaras de subred.
-- Segmentación lógica configurada con **VLAN 10** (equipos de escritorio) y **VLAN 20** (portátiles), de acuerdo con la PAC.
-- Configuración de puertos de acceso para los equipos finales y enlaces troncales entre switches.
+- Cisco Packet Tracer y comandos de **Cisco IOS** desde la CLI.
+- Diseño de redes LAN y conexiones **Ethernet/GigabitEthernet**.
+- Asignación de direcciones **IPv4 estáticas** y máscaras de subred.
+- Configuración de **VLAN**, puertos de acceso y enlaces troncales (*trunk*).
+- Consulta del estado de las interfaces de red.
 
-## Escenario de red
+## 1. Diseño de la topología
 
-| Elemento | Cantidad | Función |
-|---|---:|---|
-| Switches | 3 | Uno por sala, unidos mediante enlaces GigabitEthernet |
-| PCs | 6 | Tres equipos de escritorio en cada una de las dos aulas de alumnos |
-| Portátiles | 4 | Uno en cada aula de alumnos y dos en la sala de profesorado |
+Organicé la red en tres salas y conecté los switches entre sí mediante enlaces GigabitEthernet:
 
-![Topología general](capturas/01-topologia-tres-aulas.png)
+| Sala | Dispositivos conectados |
+| --- | --- |
+| Aula 1 | 3 PCs y 1 portátil |
+| Aula 2 | 3 PCs y 1 portátil |
+| Profesorado | 2 portátiles |
 
-## Evidencias documentadas
+En total utilicé **3 switches, 6 PCs y 4 portátiles**. Cada sala tiene su propio switch.
 
-### 1. Topología y estado de interfaces
+![Topología de las tres salas](capturas/01-topologia-tres-aulas.png)
 
-En las capturas se observa el diseño de los tres grupos de equipos, sus conexiones a los switches y la ejecución del comando `show ip interface brief` en uno de ellos.
+Para revisar las interfaces de uno de los switches utilicé el comando:
 
-![Comprobación de interfaces del switch](capturas/02-estado-interfaces-switch.png)
+```text
+show ip interface brief
+```
 
-### 2. Direccionamiento estático de los equipos
+![Estado de las interfaces del switch](capturas/02-estado-interfaces-switch.png)
 
-La actividad establece dos rangos IPv4: **192.168.10.0/24** para los PCs y **192.168.20.0/24** para los portátiles. Las capturas muestran, como ejemplo:
+## 2. Configuración del direccionamiento IPv4
 
-- PC: `192.168.10.10 / 255.255.255.0`
-- Portátil: `192.168.20.10 / 255.255.255.0`
+Asigné direcciones estáticas según el tipo de dispositivo:
 
-![IP configurada en un PC](capturas/04-ip-pc-red10.png)
+| Dispositivos | Red IPv4 | Máscara |
+| --- | --- | --- |
+| PCs de escritorio | `192.168.10.0/24` | `255.255.255.0` |
+| Portátiles | `192.168.20.0/24` | `255.255.255.0` |
 
-![IP configurada en un portátil](capturas/03-ip-portatil-red20.png)
+Estos son dos ejemplos de la configuración que realicé:
 
-### 3. Nombres de los dispositivos
+**PC — `192.168.10.10`**
 
-La PAC documenta la identificación de PCs y portátiles y la disposición de los switches en el mapa lógico.
+![Configuración IP de un PC](capturas/04-ip-pc-red10.png)
 
-![Topología con nombres](capturas/05-topologia-equipos-renombrados.png)
+**Portátil — `192.168.20.10`**
 
-### 4. Configuración de los switches y enlaces troncales
+![Configuración IP de un portátil](capturas/03-ip-portatil-red20.png)
+
+También asigné nombres identificativos a los equipos para reconocerlos fácilmente en el mapa lógico.
+
+![Topología con equipos identificados](capturas/05-topologia-equipos-renombrados.png)
+
+## 3. Configuración de VLAN y switches
+
+Configuré dos VLAN para separar los equipos por tipo:
+
+- **VLAN 10:** equipos de escritorio.
+- **VLAN 20:** portátiles.
+
+Asigné los puertos de conexión de los dispositivos finales en **modo acceso** y configuré los enlaces entre switches en **modo troncal**, siguiendo los requisitos de la actividad.
+
+Para administrar los switches trabajé desde la CLI de Cisco IOS. Entre los comandos empleados en la actividad están:
 
 ```text
 Switch> enable
@@ -61,23 +80,41 @@ Sala1Apellido(config)# interface GigabitEthernet0/1
 Sala1Apellido(config-if)# switchport mode trunk
 ```
 
-La secuencia recoge los comandos de configuración del modo troncal documentados en la PAC. Según la comprobación que realicé antes de la entrega, esta configuración formaba parte del laboratorio terminado. La imagen muestra los comandos escritos en la actividad, no la salida de verificación del switch.
+*El nombre `Sala1Apellido` es el ejemplo mostrado en el ejercicio; la configuración y los nombres del laboratorio se pueden consultar en el archivo `.pkt`.*
 
-![Comandos abordados en la PAC](capturas/06-comandos-troncal-ejercicio.png)
+![Comandos de configuración del enlace troncal documentados en la PAC](capturas/06-comandos-troncal-ejercicio.png)
 
-## Archivo de Packet Tracer
+## 4. Comprobaciones realizadas
 
-[Descargar el diseño `.pkt`](packet-tracer/ASIR_Eduardo_Medialdea.pkt)
+Antes de entregar la PAC revisé personalmente la topología, la asignación de direcciones IPv4, las conexiones de los dispositivos y la configuración de VLAN y enlaces troncales en Packet Tracer.
 
-Abrirlo con una versión compatible de Cisco Packet Tracer. Para reproducir o auditar la comprobación se pueden usar `show vlan brief` y `show interfaces trunk` en cada switch, así como pruebas de conectividad entre equipos de la misma VLAN. No se afirma que exista comunicación entre VLAN distintas sin un dispositivo que realice enrutamiento.
+Las capturas incluidas muestran parte de esas comprobaciones, aunque **no conservé imágenes de todas las salidas de comandos**. Por ello adjunto también el archivo original `.pkt`, donde puede examinarse la configuración del laboratorio.
 
-## Alcance de la documentación
+La práctica se centró en la **conmutación y segmentación de la LAN**. No configuré enrutamiento entre VLAN: el router mencionado en el enunciado quedaba fuera del alcance del ejercicio.
 
-- La configuración de las VLAN y los enlaces troncales fue comprobada por el autor antes de la entrega; las capturas disponibles no muestran todas las salidas de verificación.
-- El archivo `.pkt` se adjunta tal como fue entregado. Esta documentación se basa en la PAC, las capturas y la confirmación del autor, **sin una auditoría independiente del archivo en Packet Tracer**.
+## 5. Archivo original de Packet Tracer
+
+📁 **[Abrir o descargar el proyecto `.pkt`](packet-tracer/ASIR_Eduardo_Medialdea.pkt)**
+
+Se necesita **Cisco Packet Tracer** para abrir el archivo y revisar la topología y las configuraciones. Para inspeccionar los switches también pueden utilizarse comandos como:
+
+```text
+show vlan brief
+show interfaces trunk
+show ip interface brief
+```
+
+*Estos comandos son opciones para revisar el proyecto; no todos aparecen documentados en las capturas adjuntas.*
+
+## 6. Qué aprendí
+
+Esta práctica me ayudó a afianzar el diseño de redes LAN, el direccionamiento IPv4 y la configuración de switches con Cisco IOS. También me permitió comprender mejor cómo las VLAN separan lógicamente los dispositivos y cómo los enlaces troncales transportan las VLAN entre switches.
+
+Considero que estos conocimientos son una base importante para seguir formándome en **administración de redes y ciberseguridad**.
 
 ## Autor
 
-Eduardo Medialdea Dominguez · Estudiante de ASIR en ILERNA.
+**Eduardo Medialdea Dominguez**  
+Estudiante de segundo curso de **Administración de Sistemas Informáticos en Red (ASIR)** — ILERNA.
 
-*Repositorio creado a partir de un laboratorio académico. Las capturas se han recortado para mostrar únicamente evidencias relevantes, sin publicar el enunciado completo de la actividad.*
+*Este repositorio recoge mi trabajo en un entorno de simulación académica. Las capturas proceden de mi PAC y el archivo `.pkt` corresponde a la práctica entregada.*
