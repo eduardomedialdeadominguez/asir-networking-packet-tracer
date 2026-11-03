@@ -6,15 +6,15 @@
 
 Diseño de una topología de red simulada para un centro educativo compuesto por tres salas: dos aulas de alumnos y una sala de profesorado. El escenario incluye **3 switches**, **6 equipos de escritorio** y **4 portátiles**, con interconexiones GigabitEthernet entre switches. El proyecto original se conserva en formato `.pkt` para poder abrirlo en Cisco Packet Tracer.
 
-> **Alcance de las evidencias:** las capturas documentan la topología, el direccionamiento estático mostrado para un PC y un portátil y una consulta de interfaces del switch. La PAC también plantea configurar VLAN 10 y 20 y un puerto troncal; para confirmar que todas estas configuraciones están aplicadas en el archivo `.pkt` habría que comprobarlo en Packet Tracer con comandos de verificación.
+> **Verificación del laboratorio:** antes de entregar la PAC, comprobé personalmente las configuraciones realizadas en Packet Tracer, incluidas las VLAN y los enlaces troncales. Las capturas seleccionadas ilustran parte del proceso, pero no contienen la salida de todos los comandos de verificación. El fichero `.pkt` permite revisar el diseño y sus configuraciones.
 
 ## Tecnologías y conceptos
 
 - Cisco Packet Tracer y configuración mediante CLI Cisco IOS.
 - Diseño de topologías LAN y conexiones Ethernet/GigabitEthernet.
 - Direccionamiento IPv4 estático y máscaras de subred.
-- Segmentación lógica planteada con **VLAN 10** (equipos de alumnos) y **VLAN 20** (portátiles/profesorado según la actividad).
-- Puertos de acceso y enlaces troncales (conceptos y comandos abordados en la PAC).
+- Segmentación lógica configurada con **VLAN 10** (equipos de escritorio) y **VLAN 20** (portátiles), de acuerdo con la PAC.
+- Configuración de puertos de acceso para los equipos finales y enlaces troncales entre switches.
 
 ## Escenario de red
 
@@ -51,7 +51,7 @@ La PAC documenta la identificación de PCs y portátiles y la disposición de lo
 
 ![Topología con nombres](capturas/05-topologia-equipos-renombrados.png)
 
-### 4. Comandos Cisco IOS recogidos en la actividad
+### 4. Configuración de los switches y enlaces troncales
 
 ```text
 Switch> enable
@@ -61,7 +61,7 @@ Sala1Apellido(config)# interface GigabitEthernet0/1
 Sala1Apellido(config-if)# switchport mode trunk
 ```
 
-Esta secuencia aparece en la respuesta académica de la PAC.
+La secuencia recoge los comandos de configuración del modo troncal documentados en la PAC. Según la comprobación que realicé antes de la entrega, esta configuración formaba parte del laboratorio terminado. La imagen muestra los comandos escritos en la actividad, no la salida de verificación del switch.
 
 ![Comandos abordados en la PAC](capturas/06-comandos-troncal-ejercicio.png)
 
@@ -69,12 +69,12 @@ Esta secuencia aparece en la respuesta académica de la PAC.
 
 [Descargar el diseño `.pkt`](packet-tracer/ASIR_Eduardo_Medialdea.pkt)
 
-Abrirlo con una versión compatible de Cisco Packet Tracer. Antes de afirmar que las VLAN, troncales y pruebas de comunicación están completadas, verificar en cada switch `show vlan brief`, `show interfaces trunk` y realizar pruebas de ping según corresponda.
+Abrirlo con una versión compatible de Cisco Packet Tracer. Para reproducir o auditar la comprobación se pueden usar `show vlan brief` y `show interfaces trunk` en cada switch, así como pruebas de conectividad entre equipos de la misma VLAN. No se afirma que exista comunicación entre VLAN distintas sin un dispositivo que realice enrutamiento.
 
-## Limitaciones y próximos pasos
+## Alcance de la documentación
 
-- Las capturas aportadas **no muestran** la salida de `show vlan brief`, `show interfaces trunk` ni pruebas de ping entre equipos; Pero fueron verificadas en el `.pkt`.
-- El archivo `.pkt` se incluye tal como fue entregado.
+- La configuración de las VLAN y los enlaces troncales fue comprobada por el autor antes de la entrega; las capturas disponibles no muestran todas las salidas de verificación.
+- El archivo `.pkt` se adjunta tal como fue entregado. Esta documentación se basa en la PAC, las capturas y la confirmación del autor, **sin una auditoría independiente del archivo en Packet Tracer**.
 
 ## Autor
 
