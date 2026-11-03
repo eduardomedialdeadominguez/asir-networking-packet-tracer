@@ -61,7 +61,7 @@ Sala1Apellido(config)# interface GigabitEthernet0/1
 Sala1Apellido(config-if)# switchport mode trunk
 ```
 
-Esta secuencia aparece en la respuesta académica de la PAC. **La captura, por sí sola, no demuestra que el puerto estuviera en modo trunk en el archivo `.pkt`.**
+Esta secuencia aparece en la respuesta académica de la PAC.
 
 ![Comandos abordados en la PAC](capturas/06-comandos-troncal-ejercicio.png)
 
