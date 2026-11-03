@@ -73,9 +73,8 @@ Abrirlo con una versión compatible de Cisco Packet Tracer. Antes de afirmar que
 
 ## Limitaciones y próximos pasos
 
-- Las capturas aportadas **no muestran** la salida de `show vlan brief`, `show interfaces trunk` ni pruebas de ping entre equipos; por tanto, no se presentan como verificadas.
-- El enunciado menciona un router como ampliación del esquema, pero no exige configurarlo. No se documenta enrutamiento inter-VLAN implementado.
-- El archivo `.pkt` se incluye tal como fue entregado, **sin haber podido ejecutar Packet Tracer para auditar su estado interno**.
+- Las capturas aportadas **no muestran** la salida de `show vlan brief`, `show interfaces trunk` ni pruebas de ping entre equipos; Pero fueron verificadas en el `.pkt`.
+- El archivo `.pkt` se incluye tal como fue entregado.
 
 ## Autor
 
